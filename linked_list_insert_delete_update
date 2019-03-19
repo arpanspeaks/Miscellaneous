@@ -1,0 +1,430 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node {
+	int data;
+	struct node* next;
+};
+
+node *head = NULL;
+
+node* createNode() {
+	node* temp;
+	temp = new node;
+	return temp;
+}
+
+void push() {
+	node *temp;
+	temp = createNode();
+	int n;
+	cout << "\nEnter data to insert: ";
+	cin >> n;
+	temp -> data = n;
+	temp -> next = NULL;
+	if (head == NULL) {
+		head = temp;
+	}
+	else {
+		temp -> next = head;
+		head = temp;
+	}
+	cout << "\nOne item inserted..." << endl;
+	return;
+}
+
+void append() {
+	node *temp, *traverse;
+	temp = createNode();
+	int n;
+	cout << "\nEnter data to insert: ";
+	cin >> n;
+	temp -> data = n;
+	temp -> next = NULL;
+	if (head == NULL) {
+		head = temp;
+	}
+	else {
+		traverse = head;
+		while (traverse -> next != NULL) {
+			traverse = traverse -> next;
+		}
+		traverse -> next = temp;
+	}
+	cout << "\nOne item inserted..." << endl;
+	return;
+}
+
+void insert() {
+	node *traverse = head;
+	bool found = false;
+	if (head == NULL) {
+		cout << "\nEmpty list! You can't add after any value!" << endl;
+		return;
+	}
+	else {
+		int val;
+		cout << "\nEnter a node value after which you want to insert the new node: ";
+		cin >> val;
+		while (traverse != NULL) {
+			if (traverse -> data == val) {
+				found = true;
+				break;
+			}
+			traverse = traverse -> next;
+		}
+		if (found != true) {
+			cout << "\nNo such node exists!" << endl;
+			return;
+		}
+		else {
+			node *temp;
+			temp = createNode();
+			int n;
+			cout << "\nEnter data to insert: ";
+			cin >> n;
+			temp -> data = n;
+			temp -> next = traverse -> next;
+			traverse -> next = temp;
+		}
+	}
+	cout << "\nOne item inserted..." << endl;
+	return;
+}
+
+void insertPos() {
+	int pos, n, count=0;
+	node *traverse = head, *p = head, *temp;
+	while (traverse != NULL) {
+		count++;
+		traverse = traverse -> next;
+	}
+	cout << "\nEnter position where you want to insert the new node: ";
+	cin >> pos;
+	int x = pos;
+	if (pos > count+1) {
+		cout << "\nInvalid position as the list does not contain " << pos-1 << " values!" << endl;
+		return;
+	}
+	else if(pos == 0) {
+		cout << "\nYou can insert from position 1, not 0!" << endl;
+		return;
+	}
+	else if(pos < 0) {
+		cout << "\nInvalid position!" << endl;
+		return;
+	}
+	else {
+		traverse = head;
+		temp = createNode();
+		cout << "\nEnter data to insert: ";
+		cin >> n;
+		temp -> data = n;
+		temp -> next = NULL;
+		if (head == NULL && pos == 1) {
+			head = temp;
+			cout << "\nOne item inserted..." << endl;
+			return;
+		}
+		else {
+			while (x>1) {
+				p = traverse;
+				traverse = traverse -> next;
+				x--; 
+			}
+		}
+		if (pos == 1) {
+			temp -> next = head;
+			head = temp;
+			cout << "\nOne item inserted..." << endl;
+			return;
+		}
+		else {
+			p -> next = temp;
+			temp -> next = traverse;
+		}
+		cout << "\nOne item inserted..." << endl;
+	}
+	return;
+}
+
+void pop() {
+	if (head == NULL) {
+		cout << "\nThe list is already empty. Nothing can be deleted!" << endl;
+		return;
+	}
+	else {
+		node *temp = head;
+		head = head -> next;
+		delete(temp);
+		cout << "\nOne item deleted..." << endl;
+		return;
+	}
+}
+
+void truncate() {
+	if (head == NULL) {
+		cout << "\nThe list is already empty. Nothing can be deleted!" << endl;
+		return;
+	}
+	node *traverse = head, *temp = head;
+	while (temp -> next != NULL) {
+		traverse = temp;
+		temp = temp -> next;
+	}
+	if (temp == head) {
+		head = NULL;
+	}
+	else {
+		traverse -> next = NULL;
+	}
+	delete(temp);
+	cout << "\nOne item deleted..." << endl;
+	return;
+}
+
+void remove() {
+	if (head == NULL) {
+		cout << "\nThe list is already empty. Nothing can be deleted!" << endl;
+		return;
+	}
+	node *temp = head, *traverse = head;
+	int val;
+	bool found = false;
+	cout << "\nEnter a node value you want to delete: ";
+	cin >> val;
+	while (temp != NULL) {
+		if (temp -> data == val) {
+			found = true;
+			break;
+		}
+		else {
+			traverse = temp;
+			temp = temp -> next;
+		}
+	}
+	if (!found) {
+		cout << "\nNo such node exists!" << endl;
+		return;
+	}
+	else {
+		if (temp == head) {
+			head = head -> next;
+		}
+		else {
+			traverse -> next = temp -> next;
+		}
+		delete (temp);
+		cout << "\nOne item deleted..." << endl;
+	}
+	return;	
+}
+
+void deletePos() {
+	int pos, count=0;
+	node *temp = head;
+	while (temp != NULL) {
+		count++;
+		temp = temp -> next;
+	}
+	cout << "\nEnter position of the node you want to delete: ";
+	cin >> pos;
+	if (pos > count) {
+		cout << endl << pos << " items are not there in the list! No item deleted..." << endl;
+		return;
+	}
+	else if (pos == 0) {
+		cout << "\n0 is an invalid location! List starts from index 1." << endl;
+		return;
+	}
+	else if (pos < 0) {
+		cout << "\nInvalid location!" << endl;
+		return;
+	}
+	else {
+		node *traverse = head;
+		temp = head;
+		int x=pos;
+		while (temp != NULL && x>1) {
+			traverse = temp;
+			temp = temp -> next;
+			x--;
+		}
+		if (pos == 1) {
+			head = NULL;
+		}
+		else {
+			traverse -> next = temp -> next;
+		}
+		delete(temp);
+		cout << "\nOne item deleted..." << endl;
+		return;
+	}
+}
+
+void update() {
+	node *traverse = head;
+	int n, val;
+	bool flag = false;
+	if (head == NULL) {
+		cout << "\nEmpty list. No scope for updation!" << endl;
+		return;
+	}
+	else {
+		cout << "\nEnter the value you want to update: ";
+		cin >> n;
+		while (traverse != NULL) {
+			if (traverse -> data == n) {
+				flag = true;
+				break;
+			}
+			traverse = traverse -> next;
+		}
+		if (flag) {
+			cout << "\nEnter the new value: ";
+			cin >> val;
+			traverse -> data = val;
+			cout << "\nOne item updated..." << endl;
+		}
+		else
+			cout << "\nNot found!" << endl;
+	}
+	return;
+}
+
+void display() {
+	if (head != NULL) {
+		cout << "\nThe list is: " << endl;
+		struct node *traverse = head;
+		while (traverse != NULL) {
+			cout << traverse -> data << " ";
+			traverse = traverse -> next;
+		}
+		cout << endl;
+	}
+	else
+		cout << "\nEmpty list!" << endl;
+	return;
+}
+
+int main() {
+	int op1;
+	char op2, op3;
+	do {
+		cout << "\n***** MAIN MENU *****\n";
+		cout << "Enter 1 to insert node" << endl;
+		cout << "Enter 2 to display list" << endl;
+		cout << "Enter 3 to delete node" << endl;
+		cout << "Enter 4 to update node" << endl;
+		cout << "Enter 9 to exit" << endl;
+		cout << "Your choice: ";
+		cin >> op1;
+		switch (op1) {
+			case 1:
+				{
+					do {
+						cout << "\n*****INSERT MENU *****\n";
+						cout << "Enter 'a' to insert at the end" << endl;
+						cout << "Enter 'b' to insert at the beginning" << endl;
+						cout << "Enter 'c' to insert after a node" << endl;
+						cout << "Enter 'd' to insert at a position" << endl;
+						cout << "Enter 'z' to go back to the previous menu" << endl;
+						cout << "Your choice: ";
+						cin >> op2;
+						switch (op2) {
+							case 'a':
+								{
+									append();
+									break;
+								}
+							case 'b':
+								{
+									push();
+									break;
+								}
+							case 'c':
+								{
+									insert();
+									break;
+								}
+							case 'd':
+								{
+									insertPos();
+									break;
+								}
+							default:
+							{
+								if(op2 == 'z')
+									break;
+								else
+									cout << "\nInvalid choice!" << endl;
+							}
+						}
+					} while (op2 != 'z');
+					break;					
+				}
+			case 2:
+				{
+					display();
+					break;
+				}
+			case 3:
+				{
+					do {
+						cout << "\n*****DELETE MENU *****\n";
+						cout << "Enter 'a' to delete from the end" << endl;
+						cout << "Enter 'b' to delete from the beginning" << endl;
+						cout << "Enter 'c' to delete a node containing a value" << endl;
+						cout << "Enter 'd' to delete from a position" << endl;
+						cout << "Enter 'z' to go back to the previous menu" << endl;
+						cout << "Your choice: ";
+						cin >> op3;
+						switch (op3) {
+							case 'a':
+								{
+									truncate();
+									break;
+								}
+							case 'b':
+								{
+									pop();
+									break;
+								}
+							case 'c':
+								{
+									remove();
+									break;
+								}
+							case 'd':
+								{
+									deletePos();
+									break;
+								}
+							default:
+							{
+								if(op3 == 'z')
+									break;
+								else
+									cout << "\nInvalid choice!" << endl;
+							}
+						}
+					} while (op3 != 'z');
+					break;					
+				}
+				case 4:
+				{
+					update();
+					break;
+				}
+				default:
+					{
+						if(op1 == 9)
+							break;
+						else
+							cout << "\nInvalid choice!" << endl;
+					}
+		}
+	} while(op1 != 9);
+	cout << "\nThank you!" << endl;
+	return 0;
+}
