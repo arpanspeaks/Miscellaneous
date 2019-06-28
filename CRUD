@@ -1,0 +1,232 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ulli unsigned long long int
+
+struct node {
+	string name;
+	int age;
+	ulli phno;
+	node *next;
+};
+
+node* head = NULL;
+
+node* createNode(string &s, int a, ulli n) {
+	node* temp = new node;
+	temp->name = s;
+	temp->age = a;
+	temp->phno = n;
+	temp->next = NULL;
+	return temp;
+}
+
+bool isEmpty() {
+	if(head == NULL) return true;
+	return false;
+}
+
+void create() {
+	string name;
+	int age;
+	ulli phno;
+	cout << "\nEnter the name: ";
+	cin >> name;
+	cout << "Enter the age: ";
+	cin >> age;
+	cout << "Enter the phone number: ";
+	cin >> phno; 
+	if(isEmpty()) head = createNode(name, age, phno);
+	else {
+		node* temp = head;
+		while(temp->next != NULL) temp = temp->next;
+		temp->next = createNode(name, age, phno);
+	}
+	cout << "One record inserted . . .\n";
+}
+
+void read() {
+	if(isEmpty()) {
+			cout << "\nThe database is empty. Nothing to display . . .\n";
+			return;
+		}
+	node* temp = head;
+	cout << "\n  DISPLAY MENU\n"
+		 << "----------------\n"
+		 << "1. Full database"
+		 << "\n2. Search with Name"
+		 << "\n3. Search with Phone number"
+		 << "\n4. Search with Name and Phone number";
+	cout << "\nYour choice: ";
+	int c; cin >> c;
+	if(c == 1) {
+		cout << "\nName\t\tAge\t\tPhone no.\n";
+		cout << "----\t\t---\t\t---------\n";
+		while(temp != NULL) {
+			cout << temp->name << "\t\t" << temp->age << "\t\t" << temp->phno << endl;
+			temp = temp->next;
+		}
+		cout << endl;
+		return;
+	}
+	else if(c == 2) {
+		cout << "\nEnter the name: ";
+		string n; cin >> n;
+		bool flag = false;
+		while(temp != NULL) {
+			if(temp->name == n) {
+				flag = true;
+				break;
+			}
+			temp = temp->next;
+		}
+		if(flag) {
+			cout << "\nName\t\tAge\t\tPhone no.\n";
+			cout << "----\t\t---\t\t---------\n";
+			cout << temp->name << "\t\t" << temp->age << "\t\t" << temp->phno << endl;
+		}
+		else cout << "Name: " << n << " is not present in the database . . .\n";
+		return;
+	}
+	else if(c == 3) {
+		cout << "\nEnter the phone number: ";
+		ulli n; cin >> n;
+		bool flag = false;
+		while(temp != NULL) {
+			if(temp->phno == n) {
+				flag = true;
+				break;
+			}
+			temp = temp->next;
+		}
+		if(flag) {
+			cout << "\nName\t\tAge\t\tPhone no.\n";
+			cout << "----\t\t---\t\t---------\n";
+			cout << temp->name << "\t\t" << temp->age << "\t\t" << temp->phno << endl;
+		}
+		else cout << "Phone number: " << n << " is not present in the database . . .\n";
+		return;
+	}
+	else if(c == 4) {
+		string n;
+		ulli p;
+		cout << "\nEnter the name: ";
+		cin >> n;
+		cout << "\nEnter the phone number: ";
+		cin >> p;
+		bool flag = false;
+		while(temp != NULL) {
+			if(temp->name == n && temp->phno == p) {
+				flag = true;
+				break;
+			}
+			temp = temp->next;
+		}
+		if(flag) {
+			cout << "\nName\t\tAge\t\tPhone no.\n";
+			cout << "----\t\t---\t\t---------\n";
+			cout << temp->name << "\t\t" << temp->age << "\t\t" << temp->phno << endl;
+		}
+		else cout << "Name: " << n << " with phone number: " << p << " is not present in the database . . .\n";
+		return;
+	}
+	else {
+		cout << "\nInvalid choice!\n";
+		return;
+	}
+}
+
+void update() {
+	if(isEmpty()) {
+		cout << "\nNo records found for updation . . .\n";
+		return;
+	}
+	cout << "\nEnter the name whose data you want to update: ";
+	string name; cin >> name;
+	bool flag = false;
+	node* temp = head;
+	while(temp != NULL) {
+		if(temp->name == name) {
+			flag = true;
+			break;
+		}
+		temp = temp->next;
+	}
+	if(flag) {
+		string name;
+		int age;
+		ulli phno;
+		cout << "Enter the name: ";
+		cin >> name;
+		cout << "Enter the age: ";
+		cin >> age;
+		cout << "Enter the phone number: ";
+		cin >> phno; 
+		temp->name = name;
+		temp->age = age;
+		temp->phno = phno;
+		cout << "\nOne item updated . . ." << endl;
+	}
+	else cout << name << " is not present in the database . . .\n";
+}
+
+void erase() {
+	if(isEmpty()) {
+		cout << "\nNo records found for deletion . . .\n";
+		return;
+	}
+	cout << "\nEnter the name whose data you want to delete: ";
+	string name; cin >> name;
+	bool flag = false;
+	node* temp = head;
+	node* traverse = head;
+	while(temp != NULL) {
+		if(temp->name == name) {
+			flag = true;
+			break;
+		}
+		traverse = temp;
+		temp = temp->next;
+	}
+	if(flag) {
+		if (temp == head) head = head -> next;
+		else traverse -> next = temp -> next;
+		delete (temp);
+		cout << "\nOne item deleted . . ." << endl;
+	}
+	else cout << name << " is not present in the database . . .\n";
+}
+
+int main() {
+	char ch;
+	do {
+		cout << "  MAIN MENU\n"
+			 << "-------------\n"
+		     << "1. Create\n"
+		     << "2. Read\n"
+		     << "3. Update\n"
+		     << "4. Delete\n";
+		cout << "Your choice: ";
+		char c; cin >> c;
+		switch(c) {
+			case '1':
+				create();
+				break;
+			case '2':
+				read();
+				break;
+			case '3':
+				update();
+				break;
+			case '4':
+				erase();
+				break;
+			default:
+				cout << "Invalid choice!\n";
+		}
+		cout << "\nPress any key to continue or 0 to terminate: ";
+		cin >> ch;
+		cout << endl;
+	} while(ch != '0');
+	cout << "Thank you!";
+	return 0;
+}
