@@ -1,0 +1,106 @@
+#include<iostream>
+using namespace std;
+
+class stacks {
+	public:
+		int data;
+		stacks *next;
+};
+
+int MAX = 10;
+
+stacks* getNode(int x) {
+	stacks* temp = new stacks;
+	temp -> data = x;
+	temp->next = NULL;
+}
+
+bool isEmpty(stacks* root) {
+	return !root;
+}
+
+bool isFull() {
+	return (!MAX);
+}
+
+stacks* push(stacks* root, int x) {
+	if(isFull()) {
+		cout << "\nStack overflow!\n\n";
+		return root;
+	}
+	stacks* temp = getNode(x);
+	temp->next = root;
+	root = temp;
+	MAX--;
+	cout << endl << x << " is pushed onto the stack!" << endl << endl;
+	return root;
+}
+
+void peak(stacks* root) {
+	if(isEmpty(root)) cout << "\nEmpty stack!\n\n";
+	else cout << "\nStack top: " << root->data << endl << endl;
+}
+
+stacks* pop(stacks* root) {
+	if(isEmpty(root)) {
+		cout << "\nStack underflow!\n\n";
+		return root;
+	}
+	stacks* temp = root;
+	root = root->next;
+	MAX++;
+	cout << endl << temp->data << " is popped from the stack!\n\n";
+	delete(temp);
+	return root;
+}
+
+int main() {
+	stacks* root = NULL;
+	char ch;
+	do {
+		cout << "--------------------\n";
+		cout << "\tMENU\n";
+		cout << "--------------------\n";
+		cout << "1. Push\n";
+		cout << "2. Pop\n";
+		cout << "3. Top element\n";
+		cout << "4. Check if full\n";
+		cout << "5. Check if empty\n";
+		cout << "6. Exit\n";
+		cout << "\nEnter your choice: ";
+		cin >> ch;
+		switch(ch) {
+			case '1': {
+				cout << "\nEnter the element to push: ";
+				int x;
+				cin >> x;
+				root = push(root, x);
+				break;
+			}
+			case '2': {
+				root = pop(root);
+				break;
+			}
+			case '3': {
+				peak(root);
+				break;
+			}
+			case '4': {
+				if(isFull()) cout << "\nStack is full!\n\n";
+				else cout << "\nStack is not full!\n\n";
+				break;
+			}
+			case '5': {
+				if(isEmpty(root)) cout << "\nStack is empty!\n\n";
+				else cout << "\nStack is not empty!\n\n";
+				break;
+			}
+			default: {
+				if(ch != '6')
+					cout << "\nInvalid choice!\n\n";
+			}		
+		}
+	} while(ch != '6');
+	cout << "\nThank you!\n";
+	return 0;
+}
