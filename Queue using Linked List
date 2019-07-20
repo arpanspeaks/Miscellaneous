@@ -1,0 +1,111 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int MAX = 10;
+
+class Queue {
+	public:
+		int data;
+		Queue* next;
+};
+
+Queue *front = NULL;
+Queue *rear = NULL;
+
+bool isEmpty() {
+	return (MAX==10);
+}
+
+bool isFull() {
+	return !MAX;
+}
+
+Queue* createNode(int data) {
+	Queue* temp = new Queue;
+	temp->data = data;
+	temp->next = NULL;
+	return temp;
+}
+
+void enQueue(int data) {
+	if(isFull()) {
+		cout << "\nOverflow!\n\n";
+		return;
+	}
+	if(isEmpty()) {
+		front = createNode(data);
+		rear = front;
+		MAX--;
+		cout << endl << data << " is inserted in the queue!\n\n";
+		return;
+	}
+	rear = createNode(data);
+	cout << endl << data << " is inserted in the queue!\n\n";
+	MAX--;
+	return;
+}
+
+void deQueue() {
+	if(isEmpty()) {
+		cout << "\nUnderflow!\n\n";
+		return;
+	}
+	Queue* temp = front;
+	front = front->next;
+	cout << endl << temp->data << " is deleted fron the queue the queue!\n\n";
+	free(temp);
+}
+
+int size() {
+	return 10-MAX;
+}
+
+int main() {
+	char ch;
+	do {
+		cout << "--------------------\n";
+		cout << "\tMENU\n";
+		cout << "--------------------\n";
+		cout << "1. Enqueue\n";
+		cout << "2. Delete\n";
+		cout << "3. Display size\n";
+		cout << "4. Check if full\n";
+		cout << "5. Check if empty\n";
+		cout << "9. Exit\n";
+		cout << "\nEnter your choice: ";
+		cin >> ch;
+		switch(ch) {
+			case '1': {
+				cout << "\nEnter the element to insert: ";
+				int x;
+				cin >> x;
+				enQueue(x);
+				break;
+			}
+			case '2': {
+				deQueue();
+				break;
+			}
+			case '3': {
+				cout << "\nThe present queue size is: " << size() << endl << endl;
+				break;
+			}
+			case '4': {
+				if(isFull()) cout << "\nQueue is full!\n\n";
+				else cout << "\nQueue is not full!\n\n";
+				break;
+			}
+			case '5': {
+				if(isEmpty()) cout << "\nQueue is empty!\n\n";
+				else cout << "\nQueue is not empty!\n\n";
+				break;
+			}
+			default: {
+				if(ch != '9')
+					cout << "\nInvalid choice!\n\n";
+			}		
+		}
+	} while(ch != '9');
+	cout << "\nThank you!\n";
+	return 0;
+}
