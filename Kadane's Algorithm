@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void kadane(int arr[], int n) {
+    int max_so_far = arr[0], max_ending_here = 0;
+    int l = 0, r = 0, s = 0;
+    for(int i=0; i<n; i++) {
+        max_ending_here += arr[i];
+        if(max_so_far < max_ending_here) {
+            max_so_far = max_ending_here;
+            l = s;
+            r = i;
+        }
+        if(max_ending_here < 0) {
+            max_ending_here = 0;
+            s = i+1;
+        }
+    }
+    cout << "Maximum Subarray sum is " << max_so_far
+         << " and the starting and the ending indexes are " << l << " and " << r << " respectively.";
+}
+
+int main() {
+	cout << "Enter the size of the array: ";
+	int n; cin >> n;
+	int *arr = new int[n];
+	cout << "Enter the elements of the array: ";
+	for(int i=0; i<n; i++) cin >> arr[i];
+	kadane(arr, n);
+	return 0;
+}
+
+// Output: Maximum subarray sum along with the starting and ending indexes of the subarray
