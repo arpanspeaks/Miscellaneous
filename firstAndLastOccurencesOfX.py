@@ -5,7 +5,7 @@ def leftIndex(arr, N, X):
     lo = 0
     hi = N-1
     while lo <= hi:
-        mid = (lo + hi) // 2
+        mid = lo + (hi - lo) // 2
         if arr[mid] > X:
             hi = mid - 1
         elif arr[mid] < X:
